@@ -1,53 +1,55 @@
 import streamlit as st
-from core.state import inicializar_session_state
 from component.css import css
 
-# Configuración de la página para usar el ancho completo
-st.set_page_config(layout="wide")
-st.markdown(css(), unsafe_allow_html=True)
+# Importaciones modulares de la interfaz
+from ui.sidebar import mostrar_sidebar
+from ui.layout import mostrar_menu_horizontal_navegacion
+from ui.sections import (
+    mostrar_pagina_1,
+    mostrar_pagina_2,
+    mostrar_pagina_3,
+    mostrar_pagina_4
+)
 
-# ---------------------------------------------------------------------------
-# DISEÑO DE LA PÁGINA: Dividido en 2 columnas (Izquierda estrecha, Derecha amplia)
-# ---------------------------------------------------------------------------
-col_izquierda, col_derecha = st.columns([1, 3])
-
-# --- LADO IZQUIERDO: Menú lateral de entrada de datos (Ancho menor a la mitad) ---
-with col_izquierda:
-    st.subheader("Menú de Configuración")
+def main():
+    # 1. Configuración de página e inyección del nuevo CSS Morado
+    st.set_page_config(layout="wide", initial_sidebar_state="expanded")
+    st.markdown(css(), unsafe_allow_html=True)
     
-    # Input de texto y botón
-    dato_usuario = st.text_input("Ingresa un dato:")
-    boton_enviar = st.button("Enviar")
-
-
-# --- LADO DERECHO: Título, pestañas y contenedor con fondo blanco ---
-with col_derecha:
-    # Título principal
-    st.title("Panel de Visualización")
+    # 2. Inicialización del estado de sesión para el paso activo
+    if "paso_actual" not in st.session_state:
+        st.session_state.paso_actual = 0
+        
+    PASOS_PANEL = ["Página 1", "Página 2", "Página 3", "Página 4"]
     
-    # Barra de recorrido / Pestañas (4 pestañas)
-    tab1, tab2, tab3, tab4 = st.tabs(["Página 1", "Página 2", "Página 3", "Página 4"])
+    # 3. Renderizar Sidebar lateral (Ahora con el color por defecto de Streamlit)
+    dato_base = mostrar_sidebar(PASOS_PANEL)
     
-    # Contenido de las pestañas (dentro del contenedor blanco)
-    with tab1:
-        st.markdown('<div class="blanco-container">', unsafe_allow_html=True)
-        
-        # Campo de texto falso (Placeholder)
-        st.text_input("Próximos agregados", value="", placeholder="Escribe aquí...", disabled=True)
-        
-        st.markdown('</div>', unsafe_allow_html=True)
-        
-    with tab2:
-        st.markdown('<div class="blanco-container">', unsafe_allow_html=True)
-        st.info("Contenido de la Página 2")
-        st.markdown('</div>', unsafe_allow_html=True)
-        
-    with tab3:
-        st.markdown('<div class="blanco-container">', unsafe_allow_html=True)
-        st.info("Contenido de la Página 3")
-        st.markdown('</div>', unsafe_allow_html=True)
-        
-    with tab4:
-        st.markdown('<div class="blanco-container">', unsafe_allow_html=True)
-        st.info("Contenido de la Página 4")
-        st.markdown('</div>', unsafe_allow_html=True)
+    # 4. NOMBRE DE LA PÁGINA (Aparece arriba del menú de páginas)
+    st.markdown(
+        """
+        <div class="app-main-title-container">
+            <span class="section-eyebrow">Proyecto 10</span>
+            <h1 class="app-main-title">Modelación del consumo energético de un sistema computacional</h1>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+    
+    # 5. Renderizar el menú de línea horizontal interactivo
+    mostrar_menu_horizontal_navegacion(PASOS_PANEL, st.session_state.paso_actual)
+    
+    # 6. Despacho del enrutador dinámico (Contenido en bloque blanco)
+    paso_activo = st.session_state.paso_actual
+    
+    if paso_activo == 0:
+        mostrar_pagina_1(dato_base)
+    elif paso_activo == 1:
+        mostrar_pagina_2()
+    elif paso_activo == 2:
+        mostrar_pagina_3()
+    elif paso_activo == 3:
+        mostrar_pagina_4()
+
+if __name__ == "__main__":
+    main()
