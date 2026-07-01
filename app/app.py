@@ -20,7 +20,7 @@ def main():
     if "paso_actual" not in st.session_state:
         st.session_state.paso_actual = 0
         
-    PASOS_PANEL = ["Página 1", "Página 2", "Página 3", "Página 4"]
+    PASOS_PANEL = ["Consumo Energético", "Curvas de Nivel", "Gradiente y Derivadas", "Plano Tangente", "Puntos Críticos"]
     
     # 3. Renderizar Sidebar lateral (Ahora con el color por defecto de Streamlit)
     dato_base = mostrar_sidebar(PASOS_PANEL)
@@ -50,6 +50,8 @@ def main():
         mostrar_pagina_3()
     elif paso_activo == 3:
         mostrar_pagina_4()
+    elif paso_activo == 4:
+        st.warning("Sección de Puntos Críticos aún en desarrollo. Pronto estará disponible.")
 
 if __name__ == "__main__":
     main()
