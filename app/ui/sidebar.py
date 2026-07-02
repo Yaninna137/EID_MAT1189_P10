@@ -7,7 +7,7 @@ def mostrar_sidebar():
     """
     # 1. Inicializar coeficientes en el session_state si no existen (Valores por defecto)
     valores_por_defecto = {
-        "a": 1.0, "b": 1.0, "c": 1.0, "d": 1.0, "e": 1.0, "f": 1.0, "g": 1.0
+        "a": 55.0, "b": 0.65, "c": 1.2, "d": 0.08, "e": 0.01, "f": 0.04, "g": 0.0015
     }
     for clave, valor in valores_por_defecto.items():
         if f"coef_{clave}" not in st.session_state:
@@ -31,7 +31,7 @@ def mostrar_sidebar():
         
         # Código LaTeX dinámico que muestra los valores numéricos actuales
         st.latex("E(x , y, z) = ")
-        st.latex(f"{va:.1f} + {vb:.1f}x + {vc:.1f}y + {vd:.1f}z + {ve:.1f}xy + {vf:.1f}yz + {vg:.1f}gxz")
+        st.latex(f"{va} + {vb}x + {vc}y + {vd}z + {ve}xy + {vf}yz + {vg}xz")
         
         # Botón Calcular principal
         btn_calcular = st.button("Calcular", key="btn_calcular_main", use_container_width=True)
