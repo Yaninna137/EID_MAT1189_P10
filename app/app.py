@@ -42,6 +42,8 @@ def main():
     
     if 'modelo' not in st.session_state or st.session_state.modelo is None:
         st.session_state.modelo = modelo if funcion_consumo else None
+    if modelo:
+        st.session_state.modelo = modelo
     
     # 4. NOMBRE DE LA PÁGINA (Aparece arriba del menú de páginas)
     st.markdown(
