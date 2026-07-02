@@ -217,5 +217,44 @@ def css() -> str:
         letter-spacing: 0;
         margin-bottom: 0.3rem;
     }
+
+    /* ==========================================================
+       CORRECCIÓN AVANZADA PARA INPUTS NUMÉRICOS EN EL SIDEBAR
+    ========================================================== */
+    /* Fondo, texto y borde general de la casilla */
+    [data-testid="stSidebar"] .stNumberInput input {
+        background: #262730 !important;
+        color: #ffffff !important;
+        border: 1px solid #4a5568 !important; /* Borde gris oscuro más amigable */
+        border-right: none !important; /* Evita doble borde con los botones */
+    }
+
+    /* Contenedor completo de la casilla interna de Streamlit */
+    [data-testid="stSidebar"] .stNumberInput div[data-baseweb="input"] {
+        background-color: #262730 !important;
+        border-radius: 8px !important;
+        border: 1px solid #4a5568 !important; /* Color de borde unificado */
+    }
+
+    /* Forzar el fondo oscuro en el bloque de los botones (+ / -) para que dejen de ser blancos */
+    [data-testid="stSidebar"] .stNumberInput div[data-baseweb="input"] div {
+        background-color: #262730 !important;
+    }
+
+    /* Estilo e íconos para cada botón (+ y -) individualmente */
+    [data-testid="stSidebar"] .stNumberInput button {
+        background-color: #262730 !important;
+        color: #ffffff !important; /* Hace visibles los signos + y - */
+        border: none !important;
+        opacity: 0.8;
+        transition: all 0.2s ease;
+    }
+
+    /* Efecto hover sobre los botones + y - */
+    [data-testid="stSidebar"] .stNumberInput button:hover {
+        background-color: #363942 !important;
+        color: var(--purple-hover) !important; /* Destello morado sutil al pasar el mouse */
+        opacity: 1;
+    }
     </style>
     """
