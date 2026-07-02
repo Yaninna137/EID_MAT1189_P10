@@ -1,6 +1,6 @@
 import streamlit as st
 
-def mostrar_sidebar(pasos_panel):
+def mostrar_sidebar():
     """
     Renderiza el sidebar con el modelo simplificado y el formulario de edición de datos.
     Retorna un diccionario con los valores actuales de los coeficientes a, b, c, d, e, f, g.
@@ -37,6 +37,7 @@ def mostrar_sidebar(pasos_panel):
         btn_calcular = st.button("Calcular", key="btn_calcular_main", use_container_width=True)
         if btn_calcular:
             st.success("¡Cálculo ejecutado con los datos actuales!")
+            st.session_state.calculado = True
 
         st.markdown("---")
         st.subheader("Editar Datos")
@@ -94,5 +95,7 @@ def mostrar_sidebar(pasos_panel):
         "calcular_clicado": btn_calcular,
         "cargar_clicado": btn_cargar
     }
+
+    funcion = f"{datos_actuales['a']} + {datos_actuales['b']}*x + {datos_actuales['c']}*y + {datos_actuales['d']}*z + {datos_actuales['e']}*x*y + {datos_actuales['f']}*y*z + {datos_actuales['g']}*x*z"
     
-    return datos_actuales
+    return funcion

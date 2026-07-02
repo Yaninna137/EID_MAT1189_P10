@@ -3,7 +3,7 @@ import plotly.graph_objects as go
 import numpy as np
 from model.modelo import ModeloCosto
 
-def mostrar_pagina_1(funcion_consumo: str):
+def mostrar_pagina_1(funcion_consumo: ModeloCosto):
     """Contenido de la Página 1."""
     st.markdown('<div class="section-eyebrow">Testeo de la función</div>', unsafe_allow_html=True)
     st.subheader("Cálculo de consumo energético")
@@ -11,6 +11,13 @@ def mostrar_pagina_1(funcion_consumo: str):
     if not funcion_consumo:
         st.warning("Por favor, ingresa una función de consumo energético en el sidebar para continuar.")
         return
+    
+    if 'calculado' not in st.session_state:
+        st.session_state.calculado = False
+
+    if st.session_state.calculado:
+        st.markdown('<div class="section-eyebrow">Resultados del Cálculo</div>', unsafe_allow_html=True)
+        st.latex(funcion_consumo.funcion)
     
     input_x, input_y, input_z = st.columns(3)
     with input_x:

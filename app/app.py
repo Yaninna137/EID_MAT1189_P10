@@ -29,7 +29,7 @@ def main():
     PASOS_PANEL = ["Consumo Energético", "Curvas de Nivel", "Gradiente y Derivadas", "Plano Tangente", "Puntos Críticos"]
     
     # 3. Renderizar Sidebar lateral (Ahora con el color por defecto de Streamlit)
-    funcion_consumo = mostrar_sidebar(PASOS_PANEL)
+    funcion_consumo = mostrar_sidebar()
 
     # 3.5 Cargar modelo si el usuario ha ingresado una función válida
     modelo = None
@@ -60,7 +60,7 @@ def main():
     paso_activo = st.session_state.paso_actual
     
     if paso_activo == 0:
-        mostrar_pagina_1(modelo if modelo else None)
+        mostrar_pagina_1(modelo if st.session_state.calculado else None)
     elif paso_activo == 1:
         mostrar_pagina_2()
     elif paso_activo == 2:
