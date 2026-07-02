@@ -18,6 +18,17 @@ class ModeloCosto:
         if not self.funcion.free_symbols.issubset(set(self.symbols)):
             raise ValueError("La función contiene variables no permitidas. Solo se permiten x, y, z.")
         
+        # Funcion
+        self.funcion_lambda = sp.lambdify(self.symbols, self.funcion, 'numpy')
+        
+        # Curvas de nivel
+        self.curvas_nivel = {}
+        def calcular_curvas_nivel(self, niveles: list):
+            """Calcula las curvas de nivel para los niveles especificados."""
+            for nivel in niveles:
+                ecuacion = sp.Eq(self.funcion, nivel)
+                soluciones = sp.solve(ecuacion, self.symbols[2])  # Resuelve para z
+                self.curvas_nivel[nivel] = soluciones
 
         # Gradiente de la función para obtener las derivadas parciales
         self.gradient = [sp.diff(self.funcion, var) for var in self.symbols]

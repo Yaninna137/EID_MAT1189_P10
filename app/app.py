@@ -11,10 +11,16 @@ from ui.sections import (
     mostrar_pagina_4
 )
 
+from model.modelo import ModeloCosto
+from core.state import inicializar_session_state
+
 def main():
     # 1. Configuración de página e inyección del nuevo CSS Morado
     st.set_page_config(layout="wide", initial_sidebar_state="expanded")
     st.markdown(css(), unsafe_allow_html=True)
+
+    # 2. Inicialización del estado de sesión
+    inicializar_session_state()
     
     # 2. Inicialización del estado de sesión para el paso activo
     if "paso_actual" not in st.session_state:
@@ -23,7 +29,18 @@ def main():
     PASOS_PANEL = ["Consumo Energético", "Curvas de Nivel", "Gradiente y Derivadas", "Plano Tangente", "Puntos Críticos"]
     
     # 3. Renderizar Sidebar lateral (Ahora con el color por defecto de Streamlit)
-    dato_base = mostrar_sidebar(PASOS_PANEL)
+    funcion_consumo = mostrar_sidebar(PASOS_PANEL)
+
+    # 3.5 Cargar modelo si el usuario ha ingresado una función válida
+    modelo = None
+    if funcion_consumo:
+        try:
+            modelo = ModeloCosto(funcion_consumo)
+        except ValueError as e:
+            st.error(f"Error al procesar la función: {e}")
+    
+    if 'modelo' not in st.session_state or st.session_state.modelo is None:
+        st.session_state.modelo = modelo if funcion_consumo else None
     
     # 4. NOMBRE DE LA PÁGINA (Aparece arriba del menú de páginas)
     st.markdown(
@@ -43,7 +60,7 @@ def main():
     paso_activo = st.session_state.paso_actual
     
     if paso_activo == 0:
-        mostrar_pagina_1(dato_base)
+        mostrar_pagina_1(modelo if modelo else None)
     elif paso_activo == 1:
         mostrar_pagina_2()
     elif paso_activo == 2:
