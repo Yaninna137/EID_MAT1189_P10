@@ -8,7 +8,8 @@ from ui.sections import (
     mostrar_pagina_1,
     mostrar_pagina_2,
     mostrar_pagina_3,
-    mostrar_pagina_4
+    mostrar_pagina_4,
+    mostrar_pagina_5
 )
 
 from model.modelo import ModeloCosto
@@ -26,7 +27,7 @@ def main():
     if "paso_actual" not in st.session_state:
         st.session_state.paso_actual = 0
         
-    PASOS_PANEL = ["Consumo Energético", "Superficies y curvas de Nivel", "Gradiente y Derivadas", "Plano Tangente", "Puntos Críticos"]
+    PASOS_PANEL = ["Consumo Energético", "Superficies y curvas de Nivel", "Gradiente y Derivadas", "Puntos Críticos", "Modelo extendido"]
     
     # 3. Renderizar Sidebar lateral (Ahora con el color por defecto de Streamlit)
     funcion_consumo = mostrar_sidebar()
@@ -66,9 +67,9 @@ def main():
     elif paso_activo == 2:
         mostrar_pagina_3(st.session_state.modelo if st.session_state.calculado else None)
     elif paso_activo == 3:
-        mostrar_pagina_4()
+        mostrar_pagina_4(st.session_state.modelo if st.session_state.calculado else None)
     elif paso_activo == 4:
-        st.warning("Sección de Puntos Críticos aún en desarrollo. Pronto estará disponible.")
+        mostrar_pagina_5(st.session_state.modelo if st.session_state.calculado else None)
 
 if __name__ == "__main__":
     main()

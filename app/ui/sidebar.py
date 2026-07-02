@@ -45,12 +45,12 @@ def mostrar_sidebar():
         # Definición de la estructura de datos para asegurar el orden y alineación por filas
         campos = [
             {"letra": "A", "var": "a", "desc": "El consumo base del sistema"},
-            {"letra": "B", "var": "b", "desc": "La contribución individual de cada recurso"},
-            {"letra": "C", "var": "c", "desc": "La contribución individual de cada recurso"},
-            {"letra": "D", "var": "d", "desc": "La contribución individual de cada recurso"},
-            {"letra": "E", "var": "e", "desc": "Las interacciones entre las variables"},
-            {"letra": "F", "var": "f", "desc": "Las interacciones entre las variables"},
-            {"letra": "G", "var": "g", "desc": "Las interacciones entre las variables"}
+            {"letra": "B", "var": "b", "desc": "La contribución individual de x"},
+            {"letra": "C", "var": "c", "desc": "La contribución individual de y"},
+            {"letra": "D", "var": "d", "desc": "La contribución individual de z"},
+            {"letra": "E", "var": "e", "desc": "Las interacciones entre las variables xy"},
+            {"letra": "F", "var": "f", "desc": "Las interacciones entre las variables yz"},
+            {"letra": "G", "var": "g", "desc": "Las interacciones entre las variables xz"}
         ]
 
         valores_recuperados = {}

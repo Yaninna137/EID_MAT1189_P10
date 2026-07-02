@@ -16,6 +16,8 @@ class ModeloCosto:
             raise ValueError(f"Error al convertir la función: {e}, asegúrate de que la función esté en un formato válido.")
         
         if not self.funcion.free_symbols.issubset(set(self.symbols)):
+            print(f"Símbolos encontrados en la función: {self.funcion.free_symbols}")
+            print(f"Símbolos permitidos: {set(self.symbols)}")
             raise ValueError("La función contiene variables no permitidas. Solo se permiten x, y, z.")
         
         # Funcion
@@ -59,10 +61,44 @@ class ModeloCosto:
         tang = f"z - {f0} = {grad[0]}*(x - {x0}) + {grad[1]}*(y - {y0}) + {grad[2]}*(z - {z0})"
         return tang
 
-
     # Puntos críticos
     def puntos_criticos(self):
         """Encuentra los puntos críticos de la función."""
         soluciones = sp.solve(self.gradient, self.symbols)
         return soluciones
 
+class ModeloCostoExtendido(ModeloCosto):
+    def __init__(self, funcion_str: str):
+        
+        self.symbols = sp.symbols('x y z q')
+
+        funcion_str = funcion_str.replace('^', '**')  # Reemplaza ^ por ** para compatibilidad con sympy
+
+        try:
+            self.funcion = sp.sympify(funcion_str)
+        except (sp.SympifyError, TypeError) as e:
+            raise ValueError(f"Error al convertir la función: {e}, asegúrate de que la función esté en un formato válido.")
+        
+        if not self.funcion.free_symbols.issubset(set(self.symbols)):
+            print(f"Símbolos encontrados en la función: {self.funcion.free_symbols}")
+            print(f"Símbolos permitidos: {set(self.symbols)}")
+            raise ValueError("La función contiene variables no permitidas. Solo se permiten x, y, z, q.")
+        
+        # Funcion
+        self.funcion_lambda = sp.lambdify(self.symbols, self.funcion, 'numpy')
+
+        # Gradiente de la función para obtener las derivadas parciales
+        self.gradient = [sp.diff(self.funcion, var) for var in self.symbols]
+        self.gradient_lambda = sp.lambdify(self.symbols, self.gradient, 'numpy')
+
+        # Derivadas parciales
+        self.dX = self.gradient[0]
+        self.dY = self.gradient[1]
+        self.dZ = self.gradient[2]
+        self.dq = self.gradient[3]
+    
+    def evaluar_gradiente(self, x_val, y_val, z_val, q_val):
+        """Evalúa el gradiente en un punto específico (x, y, z, q)."""
+        return self.gradient_lambda(x_val, y_val, z_val, q_val)
+    
+    # el resto de metodos no fue implementado, pero se pueden extender de manera similar a la clase base si es necesario.
